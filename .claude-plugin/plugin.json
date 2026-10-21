@@ -57,6 +57,12 @@
       "title": "Jev model",
       "description": "TypeSafe Jev model name.",
       "default": "jev-latest"
+    },
+    "baseUrl": {
+      "type": "string",
+      "title": "Jev endpoint",
+      "description": "System One endpoint. Leave unset for TypeSafe (https://api.typesafe.ai/v1/systemone); OpenCode Zen serves Jev at https://opencode.ai/inference/systemone/v1/systemone.",
+      "default": ""
     }
   }
 }
