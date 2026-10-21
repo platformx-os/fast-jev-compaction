@@ -127,6 +127,19 @@ describe('compactSession', () => {
     expect(decisionLogLines(output)).toEqual([`decisions: ${decisionLog(output)}`]);
   });
 
+  it('sends Jev requests to the configured baseUrl', async () => {
+    const urls: string[] = [];
+    const fetchJev = jevFetch(() => 0.9);
+    const baseUrl = 'https://opencode.ai/inference/systemone/v1/systemone';
+    const config = { ...resolveHookConfig({ preserveRecentMessages: 1, baseUrl }), apiKey: 'k' };
+    await compactSession(transcript(), config, async (url, init) => {
+      urls.push(url);
+      return fetchJev(url, init);
+    });
+    expect(config.baseUrl).toBe(baseUrl);
+    expect(urls).toEqual([baseUrl]);
+  });
+
   it('splits a long decision log into ui.log lines under the host limit', async () => {
     const config = { ...resolveHookConfig({ preserveRecentMessages: 1 }), apiKey: 'k' };
     const { result: output } = await compactSession(transcript(), config, jevFetch(() => 0.1));
